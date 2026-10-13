@@ -35,4 +35,4 @@ const inscripciones = [
   { id: 3, tallerId: 3, nombre: "Pablo Ruiz", email: "pablo@example.com" },
 ];
 
-module.exports = { talleres, inscripciones };
+export { talleres, inscripciones };

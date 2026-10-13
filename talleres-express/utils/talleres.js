@@ -54,7 +54,7 @@ function validarInscripcion(datos) {
   return errores;
 }
 
-module.exports = {
+export {
   normalizarInscripcion,
   obtenerPlazasRestantes,
   estaInscrito,
