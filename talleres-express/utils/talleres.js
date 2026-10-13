@@ -26,6 +26,19 @@ function obtenerPlazasRestantes(taller, inscripciones) {
   return Math.max(0, taller.plazas - ocupadas);
 }
 
+// Devuelve una clave corta: "disponible", "ultima" o "completo".
+// El texto que se muestra al usuario ("15 plazas disponibles"...) lo decide la vista.
+function obtenerEstadoTaller(plazasRestantes) {
+  // Si el dato no es un entero válido, se trata como completo para no ofrecer plazas que no existen.
+  if (!Number.isInteger(plazasRestantes) || plazasRestantes <= 0) {
+    return "completo";
+  }
+  if (plazasRestantes === 1) {
+    return "ultima";
+  }
+  return "disponible";
+}
+
 function estaInscrito(tallerId, email, inscripciones) {
   const buscado = normalizarEmail(email);
   return inscripciones.some(
@@ -57,6 +70,7 @@ function validarInscripcion(datos) {
 export {
   normalizarInscripcion,
   obtenerPlazasRestantes,
+  obtenerEstadoTaller,
   estaInscrito,
   validarInscripcion
 };
