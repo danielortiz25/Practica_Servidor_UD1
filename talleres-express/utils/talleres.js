@@ -76,11 +76,20 @@ function parsearId(valor) {
   return Number.isSafeInteger(id) ? id : null;
 }
 
+// Siguiente id libre: el máximo actual más uno.
+// length + 1 podría repetir un id si algún día se borran inscripciones.
+function siguienteId(coleccion) {
+  return coleccion.length === 0
+    ? 1
+    : Math.max(...coleccion.map((elemento) => elemento.id)) + 1;
+}
+
 export {
   normalizarInscripcion,
   obtenerPlazasRestantes,
   obtenerEstadoTaller,
   estaInscrito,
   validarInscripcion,
-  parsearId
+  parsearId,
+  siguienteId
 };

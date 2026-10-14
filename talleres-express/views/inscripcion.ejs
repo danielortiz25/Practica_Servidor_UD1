@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title><%= tituloPagina %></title>
+</head>
+<body>
+  <h1>Inscripción: <%= taller.titulo %></h1>
+
+  <form action="/talleres/<%= taller.id %>/inscripcion" method="POST" novalidate>
+    <label for="nombre">Nombre</label>
+    <input id="nombre" name="nombre" value="<%= valores.nombre %>">
+    <% if (errores.nombre) { %>
+      <p class="error"><%= errores.nombre %></p>
+    <% } %>
+
+    <label for="email">Correo electrónico</label>
+    <input id="email" type="email" name="email" value="<%= valores.email %>">
+    <% if (errores.email) { %>
+      <p class="error"><%= errores.email %></p>
+    <% } %>
+
+    <button>Inscribirme</button>
+  </form>
+
+  <p><a href="/talleres/<%= taller.id %>">Volver a la ficha</a></p>
+</body>
+</html>
