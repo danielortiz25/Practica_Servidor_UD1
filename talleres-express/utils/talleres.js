@@ -67,10 +67,20 @@ function validarInscripcion(datos) {
   return errores;
 }
 
+// Convierte el :id de la URL en un entero positivo. Devuelve null si no es válido.
+function parsearId(valor) {
+  if (typeof valor !== "string" || !/^[1-9]\d*$/.test(valor)) {
+    return null;
+  }
+  const id = Number(valor);
+  return Number.isSafeInteger(id) ? id : null;
+}
+
 export {
   normalizarInscripcion,
   obtenerPlazasRestantes,
   obtenerEstadoTaller,
   estaInscrito,
-  validarInscripcion
+  validarInscripcion,
+  parsearId
 };

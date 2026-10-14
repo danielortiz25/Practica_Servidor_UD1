@@ -1,9 +1,14 @@
 import express from "express";
 import { talleres, inscripciones } from "./data/datos.js";
-import { obtenerPlazasRestantes } from "./utils/talleres.js";
+import { obtenerPlazasRestantes, obtenerEstadoTaller, parsearId, } from "./utils/talleres.js";
+
 
 const app = express();
 const PORT = process.env.PORT ?? 3000;
+
+app.set("view engine", "ejs");
+app.set("views", "views");
+
 
 // Un filtro de texto solo vale si llega como string. Si llega un array
 // (?categoria=web&categoria=sistemas) o un objeto, se ignora el filtro.
@@ -36,6 +41,28 @@ app.get("/talleres", (req, res) => {
   }
 
   return res.json(resultado);
+});
+
+app.get("/talleres/:id", (req, res) => {
+  const id = parsearId(req.params.id);
+  if (id === null) {
+    return res.status(400).send("Identificador de taller no válido");
+  }
+
+  const taller = talleres.find((t) => t.id === id);
+  if (!taller) {
+    return res.status(404).send("Taller no encontrado");
+  }
+
+  const plazasRestantes = obtenerPlazasRestantes(taller, inscripciones);
+  const estado = obtenerEstadoTaller(plazasRestantes);
+
+  return res.render("taller", {
+    tituloPagina: taller.titulo,
+    taller,
+    plazasRestantes,
+    estado,
+  });
 });
 
 app.listen(PORT, () => {
