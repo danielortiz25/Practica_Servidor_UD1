@@ -65,7 +65,16 @@ app.get("/talleres", (req, res) => {
     resultado = resultado.filter((taller) => taller.plazasRestantes > 0);
   }
 
-  return res.json(resultado);
+  const categorias = [...new Set(talleres.map((taller) => taller.categoria))];
+  const niveles = [...new Set(talleres.map((taller) => taller.nivel))];
+
+  return res.render("talleres", {
+    tituloPagina: "Talleres",
+    talleres: resultado,
+    filtros: { categoria, nivel, soloDisponibles },
+    categorias,
+    niveles,
+  });
 });
 
 app.get("/talleres/:id", (req, res) => {

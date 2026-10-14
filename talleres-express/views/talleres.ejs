@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title><%= tituloPagina %></title>
+</head>
+<body>
+  <h1>Talleres</h1>
+
+  <form action="/talleres" method="GET">
+    <label for="categoria">Categoría</label>
+    <select id="categoria" name="categoria">
+      <option value="">Todas</option>
+      <% for (const c of categorias) { %>
+        <option value="<%= c %>" <%= filtros.categoria === c ? "selected" : "" %>><%= c %></option>
+      <% } %>
+    </select>
+
+    <label for="nivel">Nivel</label>
+    <select id="nivel" name="nivel">
+      <option value="">Todos</option>
+      <% for (const n of niveles) { %>
+        <option value="<%= n %>" <%= filtros.nivel === n ? "selected" : "" %>><%= n %></option>
+      <% } %>
+    </select>
+
+    <label>
+      <input type="checkbox" name="disponibles" value="true" <%= filtros.soloDisponibles ? "checked" : "" %>>
+      Solo con plazas disponibles
+    </label>
+
+    <button>Filtrar</button>
+    <a href="/talleres">Quitar filtros</a>
+  </form>
+
+  <% if (talleres.length === 0) { %>
+    <p>No hay talleres que cumplan los filtros.</p>
+  <% } else { %>
+    <ul>
+      <% for (const t of talleres) { %>
+        <li>
+          <a href="/talleres/<%= t.id %>"><%= t.titulo %></a>
+          — <%= t.categoria %>, nivel <%= t.nivel %>, plazas restantes: <%= t.plazasRestantes %>
+        </li>
+      <% } %>
+    </ul>
+  <% } %>
+</body>
+</html>
